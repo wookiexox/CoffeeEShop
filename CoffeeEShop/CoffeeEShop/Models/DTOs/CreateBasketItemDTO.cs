@@ -1,6 +1,6 @@
 ﻿namespace CoffeeEShop.Models.DTOs;
 
-public class CreateBasketItem
+public class CreateBasketItemDTO
 {
     public int ClientId { get; set; }
     public int ProductId { get; set; }
