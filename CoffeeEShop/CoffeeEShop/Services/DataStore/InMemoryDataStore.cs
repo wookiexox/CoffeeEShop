@@ -42,12 +42,12 @@ namespace CoffeeEShop.Services.DataStore
 
             var products = new[]
             {
-                new Product { Id = GetNextProductId(), Name = "CoffeeLab", Description = "250g", Price = 2.50m, CategoryId = 1, IsAvailable = true, StockQuantity = 100 },
-                new Product { Id = GetNextProductId(), Name = "Braziliana", Description = "500g", Price = 3.50m, CategoryId = 1, IsAvailable = true, StockQuantity = 80 },
-                new Product { Id = GetNextProductId(), Name = "Qubana", Description = "1000g", Price = 4.00m, CategoryId = 1, IsAvailable = true, StockQuantity = 90 },
-                new Product { Id = GetNextProductId(), Name = "ColCoffee", Description = "500g", Price = 2.00m, CategoryId = 2, IsAvailable = true, StockQuantity = 50 },
-                new Product { Id = GetNextProductId(), Name = "EthCoffee", Description = "250g", Price = 2.75m, CategoryId = 3, IsAvailable = true, StockQuantity = 30 },
-                new Product { Id = GetNextProductId(), Name = "CoffeeKenya", Description = "500g", Price = 8.50m, CategoryId = 4, IsAvailable = true, StockQuantity = 20 }
+                new Product { Id = GetNextProductId(), Name = "CoffeeLab", Description = "250g", Price = 40.00m, CategoryId = 1, IsAvailable = true, StockQuantity = 100 },
+                new Product { Id = GetNextProductId(), Name = "Braziliana", Description = "500g", Price = 70.99m, CategoryId = 1, IsAvailable = true, StockQuantity = 80 },
+                new Product { Id = GetNextProductId(), Name = "Qubana", Description = "1000g", Price = 120.75m, CategoryId = 1, IsAvailable = true, StockQuantity = 90 },
+                new Product { Id = GetNextProductId(), Name = "ColCoffee", Description = "500g", Price = 52.25m, CategoryId = 2, IsAvailable = true, StockQuantity = 50 },
+                new Product { Id = GetNextProductId(), Name = "EthCoffee", Description = "250g", Price = 21.37m, CategoryId = 3, IsAvailable = true, StockQuantity = 30 },
+                new Product { Id = GetNextProductId(), Name = "CoffeeKenya", Description = "500g", Price = 111.33m, CategoryId = 4, IsAvailable = true, StockQuantity = 0 }
             };
             Products.AddRange(products);
 
