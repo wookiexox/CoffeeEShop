@@ -4,7 +4,7 @@ namespace CoffeeEShop.Services.Interfaces
 {
     public interface IClientService
     {
-        List<Client> GetAllClients();
-        Client? GetClientById(int id);
+        Task<List<Client>> GetAllClientsAsync();
+        Task<Client?> GetClientByIdAsync(int id);
     }
 }

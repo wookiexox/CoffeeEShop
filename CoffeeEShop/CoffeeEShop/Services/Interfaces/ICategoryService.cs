@@ -1,15 +1,14 @@
-﻿using CoffeeEShop.Models.DTOs;
-using CoffeeEShop.Models;
+﻿using CoffeeEShop.Models;
+using CoffeeEShop.Models.DTOs;
 
 namespace CoffeeEShop.Services.Interfaces
 {
     public interface ICategoryService
     {
-        List<ProductCategory> GetAllCategories();
-        ProductCategory? GetCategoryById(int id);
-        ProductCategory CreateCategory(CreateCategoryDTO dto);
-        ProductCategory? UpdateCategory(int id, CreateCategoryDTO dto);
-        bool DeleteCategory(int id);
-
+        Task<List<ProductCategory>> GetAllCategoriesAsync();
+        Task<ProductCategory?> GetCategoryByIdAsync(int id);
+        Task<ProductCategory> CreateCategoryAsync(CreateCategoryDTO dto);
+        Task<ProductCategory?> UpdateCategoryAsync(int id, CreateCategoryDTO dto);
+        Task<bool> DeleteCategoryAsync(int id);
     }
 }

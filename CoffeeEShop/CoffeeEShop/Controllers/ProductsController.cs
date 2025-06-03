@@ -18,16 +18,16 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetAllProducts()
+    public async Task<ActionResult> GetAllProductsAsync()
     {
-        var products = _productService.GetAllProducts();
+        var products = await _productService.GetAllProductsAsync();
         return Ok(products);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult GetProductById(int id)
+    [HttpGet("{id}", Name = "GetProductById")]
+    public async Task<ActionResult<CreateProductDTO>> GetProductByIdAsync(int id)
     {
-        var product = _productService.GetProductById(id);
+        var product = await _productService.GetProductByIdAsync(id);
         if (product == null)
             return NotFound($"Product with ID {id} not found.");
 
@@ -35,7 +35,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult CreateProduct([FromBody] CreateProductDTO dto)
+    public async Task<ActionResult> CreateProductAsync([FromBody] CreateProductDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest("Product name is required.");
@@ -43,16 +43,16 @@ public class ProductsController : ControllerBase
         if (dto.Price <= 0)
             return BadRequest("Product price must be greater than 0.");
 
-        var category = _categoryService.GetCategoryById(dto.CategoryId);
+        var category = await _categoryService.GetCategoryByIdAsync(dto.CategoryId);
         if (category == null)
             return BadRequest("Invalid category ID.");
 
-        var product = _productService.CreateProduct(dto);
-        return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+        var product = await _productService.CreateProductAsync(dto);
+        return CreatedAtRoute(routeName: "GetProductById", routeValues: new { id = product.Id }, value: product);
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateProduct(int id, [FromBody] CreateProductDTO dto)
+    public async Task<ActionResult> UpdateProductAsync(int id, [FromBody] CreateProductDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest("Product name is required.");
@@ -60,11 +60,11 @@ public class ProductsController : ControllerBase
         if (dto.Price <= 0)
             return BadRequest("Product price must be greater than 0.");
 
-        var category = _categoryService.GetCategoryById(dto.CategoryId);
+        var category = await _categoryService.GetCategoryByIdAsync(dto.CategoryId);
         if (category == null)
             return BadRequest("Invalid category ID.");
 
-        var product = _productService.UpdateProduct(id, dto);
+        var product = await _productService.UpdateProductAsync(id, dto);
         if (product == null)
             return NotFound($"Product with ID {id} not found.");
 
@@ -72,9 +72,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteProduct(int id)
+    public async Task<ActionResult> DeleteProductAsync(int id)
     {
-        var result = _productService.DeleteProduct(id);
+        var result = await _productService.DeleteProductAsync(id);
         if (!result)
             return NotFound($"Product with ID {id} not found.");
 

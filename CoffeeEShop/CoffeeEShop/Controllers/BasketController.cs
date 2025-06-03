@@ -18,20 +18,20 @@ public class BasketController : ControllerBase
     }
 
     [HttpGet("client/{clientId}")]
-    public ActionResult GetBasketByClientId(int clientId)
+    public async Task<ActionResult> GetBasketByClientIdAsync(int clientId)
     {
-        var client = _clientService.GetClientById(clientId);
+        var client = await _clientService.GetClientByIdAsync(clientId);
         if (client == null)
             return NotFound($"Client with ID {clientId} not found.");
 
-        var basketItems = _basketService.GetBasketByClientId(clientId);
+        var basketItems = await _basketService.GetBasketByClientIdAsync(clientId);
         return Ok(basketItems);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult GetBasketItemById(int id)
+    [HttpGet("{id}", Name = "GetBasketItemById")]
+    public async Task<ActionResult<CreateBasketItemDTO>> GetBasketItemByIdAsync(int id)
     {
-        var basketItem = _basketService.GetBasketItemById(id);
+        var basketItem = await _basketService.GetBasketItemByIdAsync(id);
         if (basketItem == null)
             return NotFound($"Basket item with ID {id} not found.");
 
@@ -39,25 +39,25 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult AddToBasket([FromBody] CreateBasketItemDTO dto)
+    public async Task<ActionResult> AddToBasketAsync([FromBody] CreateBasketItemDTO dto)
     {
         if (dto.Quantity <= 0)
             return BadRequest("Quantity must be greater than 0.");
 
-        var basketItem = _basketService.AddToBasket(dto);
+        var basketItem = await _basketService.AddToBasketAsync(dto);
         if (basketItem == null)
             return BadRequest("Unable to add item to basket. Check if client exists, product is available, and sufficient stock.");
 
-        return CreatedAtAction(nameof(GetBasketItemById), new { id = basketItem.Id }, basketItem);
+        return CreatedAtRoute("GetBasketItemById", new { id = basketItem.Id }, basketItem);
     }
 
     [HttpPut("{id}/quantity")]
-    public ActionResult UpdateBasketItemQuantity(int id, [FromBody] int quantity)
+    public async Task<ActionResult> UpdateBasketItemQuantityAsync(int id, [FromBody] int quantity)
     {
         if (quantity <= 0)
             return BadRequest("Quantity must be greater than 0.");
 
-        var basketItem = _basketService.UpdateBasketItem(id, quantity);
+        var basketItem = await _basketService.UpdateBasketItemAsync(id, quantity);
         if (basketItem == null)
             return NotFound($"Basket item with ID {id} not found or insufficient stock.");
 
@@ -65,9 +65,9 @@ public class BasketController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult RemoveFromBasket(int id)
+    public async Task<ActionResult> RemoveFromBasketAsync(int id)
     {
-        var result = _basketService.RemoveFromBasket(id);
+        var result = await _basketService.RemoveFromBasketAsync(id);
         if (!result)
             return NotFound($"Basket item with ID {id} not found.");
 
@@ -75,13 +75,13 @@ public class BasketController : ControllerBase
     }
 
     [HttpDelete("client/{clientId}/clear")]
-    public ActionResult ClearBasket(int clientId)
+    public async Task<ActionResult> ClearBasketAsync(int clientId)
     {
-        var client = _clientService.GetClientById(clientId);
+        var client = await _clientService.GetClientByIdAsync(clientId);
         if (client == null)
             return NotFound($"Client with ID {clientId} not found.");
 
-        _basketService.ClearBasket(clientId);
+        await _basketService.ClearBasketAsync(clientId);
         return NoContent();
     }
 }

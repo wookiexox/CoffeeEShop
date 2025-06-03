@@ -13,15 +13,16 @@ namespace CoffeeEShop.Services
             _dataStore = dataStore;
         }
 
-        public List<Client> GetAllClients()
+        public async Task<List<Client>> GetAllClientsAsync()
         {
+            await Task.Delay(1); // Simulate async operation
             return _dataStore.Clients.ToList();
         }
 
-        public Client? GetClientById(int id)
+        public async Task<Client?> GetClientByIdAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
             return _dataStore.Clients.FirstOrDefault(c => c.Id == id);
         }
     }
-
 }

@@ -14,18 +14,22 @@ namespace CoffeeEShop.Services
             _dataStore = dataStore;
         }
 
-        public List<ProductCategory> GetAllCategories()
+        public async Task<List<ProductCategory>> GetAllCategoriesAsync()
         {
+            await Task.Delay(1); // Simulate async operation
             return _dataStore.Categories.ToList();
         }
 
-        public ProductCategory? GetCategoryById(int id)
+        public async Task<ProductCategory?> GetCategoryByIdAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
             return _dataStore.Categories.FirstOrDefault(c => c.Id == id);
         }
 
-        public ProductCategory CreateCategory(CreateCategoryDTO dto)
+        public async Task<ProductCategory> CreateCategoryAsync(CreateCategoryDTO dto)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var category = new ProductCategory
             {
                 Id = _dataStore.GetNextCategoryId(),
@@ -37,8 +41,10 @@ namespace CoffeeEShop.Services
             return category;
         }
 
-        public ProductCategory? UpdateCategory(int id, CreateCategoryDTO dto)
+        public async Task<ProductCategory?> UpdateCategoryAsync(int id, CreateCategoryDTO dto)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var category = _dataStore.Categories.FirstOrDefault(c => c.Id == id);
             if (category == null) return null;
 
@@ -47,8 +53,10 @@ namespace CoffeeEShop.Services
             return category;
         }
 
-        public bool DeleteCategory(int id)
+        public async Task<bool> DeleteCategoryAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var category = _dataStore.Categories.FirstOrDefault(c => c.Id == id);
             if (category == null) return false;
 
@@ -60,4 +68,3 @@ namespace CoffeeEShop.Services
         }
     }
 }
-

@@ -14,8 +14,10 @@ namespace CoffeeEShop.Services
             _dataStore = dataStore;
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProductsAsync()
         {
+            await Task.Delay(1); // Simulate async operation
+
             var products = _dataStore.Products.ToList();
             foreach (var product in products)
             {
@@ -24,8 +26,10 @@ namespace CoffeeEShop.Services
             return products;
         }
 
-        public Product? GetProductById(int id)
+        public async Task<Product?> GetProductByIdAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var product = _dataStore.Products.FirstOrDefault(p => p.Id == id);
             if (product != null)
             {
@@ -34,8 +38,10 @@ namespace CoffeeEShop.Services
             return product;
         }
 
-        public Product CreateProduct(CreateProductDTO dto)
+        public async Task<Product> CreateProductAsync(CreateProductDTO dto)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var product = new Product
             {
                 Id = _dataStore.GetNextProductId(),
@@ -52,8 +58,10 @@ namespace CoffeeEShop.Services
             return product;
         }
 
-        public Product? UpdateProduct(int id, CreateProductDTO dto)
+        public async Task<Product?> UpdateProductAsync(int id, CreateProductDTO dto)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var product = _dataStore.Products.FirstOrDefault(p => p.Id == id);
             if (product == null) return null;
 
@@ -68,8 +76,10 @@ namespace CoffeeEShop.Services
             return product;
         }
 
-        public bool DeleteProduct(int id)
+        public async Task<bool> DeleteProductAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var product = _dataStore.Products.FirstOrDefault(p => p.Id == id);
             if (product == null) return false;
 
@@ -83,5 +93,4 @@ namespace CoffeeEShop.Services
             return true;
         }
     }
-
 }

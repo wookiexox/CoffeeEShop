@@ -5,11 +5,11 @@ namespace CoffeeEShop.Services.Interfaces
 {
     public interface IBasketService
     {
-        List<BasketItem> GetBasketByClientId(int clientId);
-        BasketItem? GetBasketItemById(int id);
-        BasketItem? AddToBasket(CreateBasketItemDTO dto);
-        BasketItem? UpdateBasketItem(int id, int quantity);
-        bool RemoveFromBasket(int id);
-        bool ClearBasket(int clientId);
+        Task<List<BasketItem>> GetBasketByClientIdAsync(int clientId);
+        Task<BasketItem?> GetBasketItemByIdAsync(int id);
+        Task<BasketItem?> AddToBasketAsync(CreateBasketItemDTO dto);
+        Task<BasketItem?> UpdateBasketItemAsync(int id, int quantity);
+        Task<bool> RemoveFromBasketAsync(int id);
+        Task<bool> ClearBasketAsync(int clientId);
     }
 }

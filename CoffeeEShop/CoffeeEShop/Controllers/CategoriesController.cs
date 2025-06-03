@@ -16,16 +16,16 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetAllCategories()
+    public async Task<ActionResult> GetAllCategoriesAsync()
     {
-        var categories = _categoryService.GetAllCategories();
+        var categories = await _categoryService.GetAllCategoriesAsync();
         return Ok(categories);
     }
 
-    [HttpGet("{id}")]
-    public ActionResult GetCategoryById(int id)
+    [HttpGet("{id}", Name = "GetCategoryById")]
+    public async Task<ActionResult<CreateCategoryDTO>> GetCategoryByIdAsync(int id)
     {
-        var category = _categoryService.GetCategoryById(id);
+        var category = await _categoryService.GetCategoryByIdAsync(id);
         if (category == null)
             return NotFound($"Category with ID {id} not found.");
 
@@ -33,22 +33,22 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult CreateCategory([FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult> CreateCategoryAsync([FromBody] CreateCategoryDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest("Category name is required.");
 
-        var category = _categoryService.CreateCategory(dto);
-        return CreatedAtAction(nameof(GetCategoryById), new { id = category.Id }, category);
+        var category = await _categoryService.CreateCategoryAsync(dto);
+        return CreatedAtAction("GetCategoryById", new { id = category.Id }, category);
     }
 
     [HttpPut("{id}")]
-    public ActionResult UpdateCategory(int id, [FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name))
             return BadRequest("Category name is required.");
 
-        var category = _categoryService.UpdateCategory(id, dto);
+        var category = await _categoryService.UpdateCategoryAsync(id, dto);
         if (category == null)
             return NotFound($"Category with ID {id} not found.");
 
@@ -56,9 +56,9 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteCategory(int id)
+    public async Task<ActionResult> DeleteCategoryAsync(int id)
     {
-        var result = _categoryService.DeleteCategory(id);
+        var result = await _categoryService.DeleteCategoryAsync(id);
         if (!result)
             return BadRequest("Cannot delete category. It may not exist or has associated products.");
 

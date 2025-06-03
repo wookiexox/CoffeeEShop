@@ -14,8 +14,10 @@ namespace CoffeeEShop.Services
             _dataStore = dataStore;
         }
 
-        public List<BasketItem> GetBasketByClientId(int clientId)
+        public async Task<List<BasketItem>> GetBasketByClientIdAsync(int clientId)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var basketItems = _dataStore.BasketItems.Where(bi => bi.ClientId == clientId).ToList();
             foreach (var item in basketItems)
             {
@@ -28,8 +30,10 @@ namespace CoffeeEShop.Services
             return basketItems;
         }
 
-        public BasketItem? GetBasketItemById(int id)
+        public async Task<BasketItem?> GetBasketItemByIdAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var basketItem = _dataStore.BasketItems.FirstOrDefault(bi => bi.Id == id);
             if (basketItem != null)
             {
@@ -42,8 +46,10 @@ namespace CoffeeEShop.Services
             return basketItem;
         }
 
-        public BasketItem? AddToBasket(CreateBasketItemDTO dto)
+        public async Task<BasketItem?> AddToBasketAsync(CreateBasketItemDTO dto)
         {
+            await Task.Delay(1); // Simulate async operation
+
             // Check if product exists and is available
             var product = _dataStore.Products.FirstOrDefault(p => p.Id == dto.ProductId);
             if (product == null || !product.IsAvailable || product.StockQuantity < dto.Quantity)
@@ -57,6 +63,10 @@ namespace CoffeeEShop.Services
             var existingItem = _dataStore.BasketItems.FirstOrDefault(bi => bi.ClientId == dto.ClientId && bi.ProductId == dto.ProductId);
             if (existingItem != null)
             {
+                // Check if total quantity would exceed stock
+                if (product.StockQuantity < existingItem.Quantity + dto.Quantity)
+                    return null;
+
                 existingItem.Quantity += dto.Quantity;
                 existingItem.Product = product;
                 product.Category = _dataStore.Categories.FirstOrDefault(c => c.Id == product.CategoryId);
@@ -78,8 +88,10 @@ namespace CoffeeEShop.Services
             return basketItem;
         }
 
-        public BasketItem? UpdateBasketItem(int id, int quantity)
+        public async Task<BasketItem?> UpdateBasketItemAsync(int id, int quantity)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var basketItem = _dataStore.BasketItems.FirstOrDefault(bi => bi.Id == id);
             if (basketItem == null) return null;
 
@@ -92,8 +104,10 @@ namespace CoffeeEShop.Services
             return basketItem;
         }
 
-        public bool RemoveFromBasket(int id)
+        public async Task<bool> RemoveFromBasketAsync(int id)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var basketItem = _dataStore.BasketItems.FirstOrDefault(bi => bi.Id == id);
             if (basketItem == null) return false;
 
@@ -101,8 +115,10 @@ namespace CoffeeEShop.Services
             return true;
         }
 
-        public bool ClearBasket(int clientId)
+        public async Task<bool> ClearBasketAsync(int clientId)
         {
+            await Task.Delay(1); // Simulate async operation
+
             var basketItems = _dataStore.BasketItems.Where(bi => bi.ClientId == clientId).ToList();
             foreach (var item in basketItems)
             {
@@ -111,5 +127,4 @@ namespace CoffeeEShop.Services
             return true;
         }
     }
-
 }
