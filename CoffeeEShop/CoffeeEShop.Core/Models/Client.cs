@@ -1,4 +1,4 @@
-﻿namespace CoffeeEShop.Models;
+﻿namespace CoffeeEShop.Core.Models;
 
 public class Client
 {

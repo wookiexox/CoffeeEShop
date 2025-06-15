@@ -1,7 +1,7 @@
-﻿using CoffeeEShop.Models;
-using CoffeeEShop.Models.DTOs;
+﻿using CoffeeEShop.Core.Models;
+using CoffeeEShop.Core.Models.DTOs;
 
-namespace CoffeeEShop.Services.Interfaces
+namespace CoffeeEShop.Application.Services.Interfaces
 {
     public interface IProductService
     {

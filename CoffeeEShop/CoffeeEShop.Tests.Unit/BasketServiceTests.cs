@@ -1,11 +1,11 @@
-﻿using CoffeeEShop.Models;
-using CoffeeEShop.Models.DTOs;
-using CoffeeEShop.Services;
-using CoffeeEShop.Services.DataStore;
+﻿using CoffeeEShop.Application.Services;
+using CoffeeEShop.Application.Services.DataStore;
+using CoffeeEShop.Core.Models;
+using CoffeeEShop.Core.Models.DTOs;
 using Moq;
 using Xunit;
 
-namespace CoffeeEShop.Tests.Unit.Services
+namespace CoffeeEShop.Tests.Unit
 {
     public class BasketServiceTests
     {

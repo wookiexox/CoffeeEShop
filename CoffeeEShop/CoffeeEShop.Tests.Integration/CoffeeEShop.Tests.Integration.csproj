@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CoffeeEShop\CoffeeEShop.csproj" />
+    <ProjectReference Include="..\CoffeeEShop\CoffeeEShop.API.csproj" />
   </ItemGroup>
 
   <ItemGroup>

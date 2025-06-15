@@ -1,8 +1,8 @@
-﻿using CoffeeEShop.Models.DTOs;
-using CoffeeEShop.Services.Interfaces;
+﻿using CoffeeEShop.Application.Services.Interfaces;
+using CoffeeEShop.Core.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoffeeEShop.Controllers;
+namespace CoffeeEShop.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

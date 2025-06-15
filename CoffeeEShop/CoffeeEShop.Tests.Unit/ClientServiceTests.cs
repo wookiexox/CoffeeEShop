@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoffeeEShop.Models;
-using CoffeeEShop.Services.DataStore;
-using CoffeeEShop.Services;
 using Moq;
+using CoffeeEShop.Core.Models;
+using CoffeeEShop.Application.Services.DataStore;
+using CoffeeEShop.Application.Services;
 
 namespace CoffeeEShop.Tests.Unit
 {

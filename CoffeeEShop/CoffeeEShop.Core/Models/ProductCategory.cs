@@ -1,7 +1,8 @@
-﻿namespace CoffeeEShop.Models.DTOs;
+﻿namespace CoffeeEShop.Core.Models;
 
-public class CreateCategoryDTO
+public class ProductCategory
 {
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 }

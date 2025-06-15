@@ -1,6 +1,6 @@
-﻿using CoffeeEShop.Models;
+﻿using CoffeeEShop.Core.Models;
 
-namespace CoffeeEShop.Services.Interfaces
+namespace CoffeeEShop.Application.Services.Interfaces
 {
     public interface IClientService
     {

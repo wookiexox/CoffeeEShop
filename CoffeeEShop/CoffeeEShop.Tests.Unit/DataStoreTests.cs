@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoffeeEShop.Services.DataStore;
+using CoffeeEShop.Application.Services.DataStore;
 
 namespace CoffeeEShop.Tests.Unit
 {

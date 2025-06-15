@@ -1,4 +1,4 @@
-﻿namespace CoffeeEShop.Models.DTOs;
+﻿namespace CoffeeEShop.Core.Models.DTOs;
 
 public class CreateBasketItemDTO
 {
