@@ -1,35 +1,31 @@
-﻿using CoffeeEShop.Application.Services.Interfaces;
-using CoffeeEShop.Core.Models.DTOs;
-using Microsoft.AspNetCore.Http;
+﻿using CoffeeEShop.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace CoffeeEShop.API.Controllers;
+namespace CoffeeEShop.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ClientsController : ControllerBase
 {
-    private readonly IClientService _clientService;
+    private readonly ApplicationDbContext _context;
 
-    public ClientsController(IClientService clientService)
+    public ClientsController(ApplicationDbContext context)
     {
-        _clientService = clientService;
+        _context = context;
     }
 
     [HttpGet]
     public async Task<ActionResult> GetAllClientsAsync()
     {
-        var clients = await _clientService.GetAllClientsAsync();
-        return Ok(clients);
+        return Ok(await _context.Clients.ToListAsync());
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult> GetClientByIdAsync(int id)
     {
-        var client = await _clientService.GetClientByIdAsync(id);
-        if (client == null)
-            return NotFound($"Client with ID {id} not found.");
-
+        var client = await _context.Clients.FindAsync(id);
+        if (client == null) return NotFound($"Client with ID {id} not found.");
         return Ok(client);
     }
 }

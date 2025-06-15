@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeEShop.Tests.Unit", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeEShop.Core", "CoffeeEShop.Core\CoffeeEShop.Core.csproj", "{6DBD50CA-6875-44AB-80BC-768735786FBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeEShop.Application", "CoffeeEShop.Application\CoffeeEShop.Application.csproj", "{20156D26-E709-4700-8278-C1DB381442B3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeEShop.Infrastructure", "CoffeeEShop.Infrastructure\CoffeeEShop.Infrastructure.csproj", "{794A0574-1298-4C53-99A1-AB9DF998B6E5}"
 EndProject
 Global
@@ -31,10 +29,6 @@ Global
 		{6DBD50CA-6875-44AB-80BC-768735786FBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DBD50CA-6875-44AB-80BC-768735786FBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DBD50CA-6875-44AB-80BC-768735786FBE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{20156D26-E709-4700-8278-C1DB381442B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20156D26-E709-4700-8278-C1DB381442B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20156D26-E709-4700-8278-C1DB381442B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20156D26-E709-4700-8278-C1DB381442B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{794A0574-1298-4C53-99A1-AB9DF998B6E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{794A0574-1298-4C53-99A1-AB9DF998B6E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{794A0574-1298-4C53-99A1-AB9DF998B6E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
