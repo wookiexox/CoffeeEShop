@@ -19,14 +19,14 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllProductsAsync()
+    public async Task<ActionResult<IEnumerable<Product>>> GetAllProductsAsync()
     {
         var products = await _context.Products.Include(p => p.Category).ToListAsync();
         return Ok(products);
     }
 
     [HttpGet("{id}", Name = "GetProductById")]
-    public async Task<ActionResult<CreateProductDTO>> GetProductByIdAsync(int id)
+    public async Task<ActionResult<Product>> GetProductByIdAsync(int id)
     {
         var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
         if (product == null)
@@ -36,7 +36,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateProductAsync([FromBody] CreateProductDTO dto)
+    public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Product name is required.");
         if (dto.Price <= 0) return BadRequest("Product price must be greater than 0.");
@@ -59,7 +59,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateProductAsync(int id, [FromBody] CreateProductDTO dto)
+    public async Task<ActionResult<Product>> UpdateProductAsync(int id, [FromBody] CreateProductDTO dto)
     {
         var product = await _context.Products.FindAsync(id);
         if (product == null) return NotFound($"Product with ID {id} not found.");

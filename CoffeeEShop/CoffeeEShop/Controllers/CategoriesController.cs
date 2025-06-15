@@ -19,13 +19,13 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllCategoriesAsync()
+    public async Task<ActionResult<IEnumerable<ProductCategory>>> GetAllCategoriesAsync()
     {
         return Ok(await _context.Categories.ToListAsync());
     }
 
     [HttpGet("{id}", Name = "GetCategoryById")]
-    public async Task<ActionResult<CreateCategoryDTO>> GetCategoryByIdAsync(int id)
+    public async Task<ActionResult<ProductCategory>> GetCategoryByIdAsync(int id)
     {
         var category = await _context.Categories.FindAsync(id);
         if (category == null) return NotFound($"Category with ID {id} not found.");
@@ -33,7 +33,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateCategoryAsync([FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult<ProductCategory>> CreateCategoryAsync([FromBody] CreateCategoryDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Category name is required.");
 
@@ -45,7 +45,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult<ProductCategory>> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDTO dto)
     {
         var category = await _context.Categories.FindAsync(id);
         if (category == null) return NotFound($"Category with ID {id} not found.");

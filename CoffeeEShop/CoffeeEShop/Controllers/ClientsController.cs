@@ -1,4 +1,5 @@
-﻿using CoffeeEShop.Infrastructure;
+﻿using CoffeeEShop.Core.Models;
+using CoffeeEShop.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,13 +17,13 @@ public class ClientsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetAllClientsAsync()
+    public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsAsync()
     {
         return Ok(await _context.Clients.ToListAsync());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> GetClientByIdAsync(int id)
+    public async Task<ActionResult<Client>> GetClientByIdAsync(int id)
     {
         var client = await _context.Clients.FindAsync(id);
         if (client == null) return NotFound($"Client with ID {id} not found.");
