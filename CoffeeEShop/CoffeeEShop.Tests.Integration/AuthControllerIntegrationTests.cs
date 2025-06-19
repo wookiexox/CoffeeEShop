@@ -1,4 +1,5 @@
 ﻿using CoffeeEShop.Core.DTOs.Auth;
+using CoffeeEShop.Core.Models;
 using CoffeeEShop.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,12 @@ public class AuthControllerIntegrationTests : IClassFixture<CustomWebApplication
 
         // Assert
         response.EnsureSuccessStatusCode();
+        var createdClient = await response.Content.ReadFromJsonAsync<Client>();
+        Assert.NotNull(createdClient);
+        Assert.Equal(newUser.Email, createdClient.Email);
+        Assert.Equal(newUser.FirstName, createdClient.FirstName);
+        Assert.Equal("User", createdClient.Role);
+        Assert.NotEqual(0, createdClient.Id);
     }
 
     [Fact]
