@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<Client>> Register(UserRegisterDTO request)
+    public async Task<ActionResult<Client>> Register(UserRegisterDto request)
     {
         if (await _context.Clients.AnyAsync(c => c.Email == request.Email))
         {
@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
             PhoneNumber = request.PhoneNumber,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            Role = "Admin" // Default role
+            Role = "User" // Default role
         };
 
         _context.Clients.Add(client);
@@ -53,7 +53,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(UserLoginDTO request)
+    public async Task<ActionResult<string>> Login(UserLoginDto request)
     {
         var client = await _context.Clients.FirstOrDefaultAsync(c => c.Email == request.Email);
         if (client == null || !VerifyPasswordHash(request.Password, client.PasswordHash, client.PasswordSalt))
@@ -107,7 +107,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
-    public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO request)
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordDto request)
     {
         var client = await _context.Clients.FirstOrDefaultAsync(c => c.Email == request.Email);
         if (client == null)
@@ -125,12 +125,12 @@ public class AuthController : ControllerBase
         // --- In a real application, you would email the token to the user here ---
         // Example: await _emailService.SendPasswordResetEmailAsync(client.Email, resetToken);
 
-        // For testing, we return the token directly. DO NOT do this in production.
+        // For testing, we return the token directly.
         return Ok($"Password reset token (for testing): {resetToken}");
     }
 
     [HttpPost("reset-password")]
-    public async Task<IActionResult> ResetPassword(ResetPasswordDTO request)
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto request)
     {
         var client = await _context.Clients.FirstOrDefaultAsync(c => c.PasswordResetToken == request.Token);
 

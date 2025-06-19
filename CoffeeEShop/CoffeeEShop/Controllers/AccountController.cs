@@ -19,7 +19,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpPut("me")]
-    public async Task<IActionResult> UpdateMyAccount([FromBody] AccountEditDTO request)
+    public async Task<IActionResult> UpdateMyAccount([FromBody] AccountEditDto request)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)

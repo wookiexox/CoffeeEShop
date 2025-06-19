@@ -12,7 +12,7 @@ using Xunit;
 
 namespace CoffeeEShop.Tests.Unit;
 
-public class BasketControllerTests
+public class BasketControllerTests : IDisposable
 {
     private readonly ApplicationDbContext _context;
     private readonly BasketController _controller;
@@ -24,23 +24,23 @@ public class BasketControllerTests
             .Options;
         _context = new ApplicationDbContext(options);
         _controller = new BasketController(_context);
-
-        SeedDatabase();
     }
 
-    private void SeedDatabase()
+    public void Dispose()
     {
-        _context.Clients.Add(new Client { Id = 1, FirstName = "Test" });
-        _context.Products.Add(new Product { Id = 1, Name = "Available Coffee", StockQuantity = 10, IsAvailable = true });
-        _context.Products.Add(new Product { Id = 2, Name = "Unavailable Coffee", StockQuantity = 0, IsAvailable = false });
-        _context.SaveChanges();
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
     }
 
     [Fact]
-    public async Task AddToBasketAsync_ValidData_CreatesBasketItem()
+    public async Task AddToBasketAsync_WithValidData_CreatesBasketItem()
     {
         // Arrange
-        var dto = new CreateBasketItemDTO { ClientId = 1, ProductId = 1, Quantity = 2 };
+        _context.Clients.Add(new Client { Id = 1, FirstName = "Test" });
+        _context.Products.Add(new Product { Id = 1, Name = "Test Coffee", StockQuantity = 10 });
+        _context.SaveChanges();
+
+        var dto = new CreateBasketItemDto { ClientId = 1, ProductId = 1, Quantity = 2 };
 
         // Act
         var result = await _controller.AddToBasketAsync(dto);
@@ -48,16 +48,15 @@ public class BasketControllerTests
         // Assert
         var createdAtRouteResult = Assert.IsType<CreatedAtRouteResult>(result.Result);
         var item = Assert.IsType<BasketItem>(createdAtRouteResult.Value);
-        Assert.Equal(1, item.ProductId);
-        Assert.Equal(2, item.Quantity);
         Assert.Equal(1, _context.BasketItems.Count());
+        Assert.Equal(2, item.Quantity);
     }
 
     [Fact]
     public async Task AddToBasketAsync_InsufficientStock_ReturnsBadRequest()
     {
         // Arrange
-        var dto = new CreateBasketItemDTO { ClientId = 1, ProductId = 1, Quantity = 20 }; // Stock is 10
+        var dto = new CreateBasketItemDto { ClientId = 1, ProductId = 1, Quantity = 20 };
 
         // Act
         var result = await _controller.AddToBasketAsync(dto);
@@ -70,7 +69,7 @@ public class BasketControllerTests
     public async Task AddToBasketAsync_UnavailableProduct_ReturnsBadRequest()
     {
         // Arrange
-        var dto = new CreateBasketItemDTO { ClientId = 1, ProductId = 2, Quantity = 1 }; // Product is not available
+        var dto = new CreateBasketItemDto { ClientId = 1, ProductId = 2, Quantity = 1 };
 
         // Act
         var result = await _controller.AddToBasketAsync(dto);

@@ -10,36 +10,60 @@ using Xunit;
 
 namespace CoffeeEShop.Tests.Unit;
 
-public class ClientControllerTests
+public class ClientsControllerTests : IDisposable
 {
     private readonly ApplicationDbContext _context;
     private readonly ClientsController _controller;
 
-    public ClientControllerTests()
+    public ClientsControllerTests()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
             .Options;
         _context = new ApplicationDbContext(options);
         _controller = new ClientsController(_context);
+    }
 
-        SeedDatabase();
+    public void Dispose()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
     }
 
     private void SeedDatabase()
     {
-        var clients = new[]
-        {
+        _context.Clients.AddRange(
             new Client { Id = 1, FirstName = "John", LastName = "Doe" },
             new Client { Id = 2, FirstName = "Jane", LastName = "Smith" }
-        };
-        _context.Clients.AddRange(clients);
+        );
         _context.SaveChanges();
+    }
+
+    [Fact]
+    public async Task GetAllClientsAsync_ReturnsAllClients()
+    {
+        // Arrange
+        _context.Clients.AddRange(
+            new Client { Id = 1, FirstName = "John" },
+            new Client { Id = 2, FirstName = "Jane" }
+        );
+        _context.SaveChanges();
+
+        // Act
+        var result = await _controller.GetAllClientsAsync();
+
+        // Assert
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var items = Assert.IsAssignableFrom<IEnumerable<Client>>(okResult.Value);
+        Assert.Equal(2, items.Count());
     }
 
     [Fact]
     public async Task GetClientByIdAsync_ValidId_ReturnsClient()
     {
+        // Arrange
+        SeedDatabase();
+
         // Act
         var result = await _controller.GetClientByIdAsync(1);
 

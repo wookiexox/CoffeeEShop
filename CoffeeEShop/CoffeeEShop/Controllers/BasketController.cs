@@ -49,7 +49,7 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<BasketItem>> AddToBasketAsync([FromBody] CreateBasketItemDTO dto)
+    public async Task<ActionResult<BasketItem>> AddToBasketAsync([FromBody] CreateBasketItemDto dto)
     {
         if (dto.Quantity <= 0)
             return BadRequest("Quantity must be greater than 0.");

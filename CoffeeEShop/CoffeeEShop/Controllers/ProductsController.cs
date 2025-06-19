@@ -38,7 +38,7 @@ public class ProductsController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductDTO dto)
+    public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Product name is required.");
         if (dto.Price <= 0) return BadRequest("Product price must be greater than 0.");
@@ -62,7 +62,7 @@ public class ProductsController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<Product>> UpdateProductAsync(int id, [FromBody] CreateProductDTO dto)
+    public async Task<ActionResult<Product>> UpdateProductAsync(int id, [FromBody] CreateProductDto dto)
     {
         var product = await _context.Products.FindAsync(id);
         if (product == null) return NotFound($"Product with ID {id} not found.");

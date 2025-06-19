@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeEShop.Core.DTOs.Account;
 
-public class AccountEditDTO
+public class AccountEditDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

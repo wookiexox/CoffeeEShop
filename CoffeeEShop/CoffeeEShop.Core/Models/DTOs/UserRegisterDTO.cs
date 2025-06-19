@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeEShop.Core.Models.DTOs;
 
-public class UserRegisterDTO
+public class UserRegisterDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

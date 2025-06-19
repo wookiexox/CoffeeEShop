@@ -35,7 +35,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<ProductCategory>> CreateCategoryAsync([FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult<ProductCategory>> CreateCategoryAsync([FromBody] CreateCategoryDto dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Category name is required.");
 
@@ -48,7 +48,7 @@ public class CategoriesController : ControllerBase
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult<ProductCategory>> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDTO dto)
+    public async Task<ActionResult<ProductCategory>> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDto dto)
     {
         var category = await _context.Categories.FindAsync(id);
         if (category == null) return NotFound($"Category with ID {id} not found.");
