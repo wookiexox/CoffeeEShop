@@ -11,11 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var databaseRoot = new InMemoryDatabaseRoot();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("CoffeeEShopDb", databaseRoot));
+    options.UseSqlite(connectionString, b => b.MigrationsAssembly("CoffeeEShop.API")));
 
-
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
