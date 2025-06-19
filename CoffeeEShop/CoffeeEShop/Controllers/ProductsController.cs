@@ -2,6 +2,7 @@
 using CoffeeEShop.Core.Models;
 using CoffeeEShop.Core.Models.DTOs;
 using CoffeeEShop.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +37,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Product>> CreateProductAsync([FromBody] CreateProductDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Product name is required.");
@@ -59,6 +61,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Product>> UpdateProductAsync(int id, [FromBody] CreateProductDTO dto)
     {
         var product = await _context.Products.FindAsync(id);
@@ -76,6 +79,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteProductAsync(int id)
     {
         var product = await _context.Products.FindAsync(id);

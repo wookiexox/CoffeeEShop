@@ -8,4 +8,9 @@ public class Client
     public string Email { get; set; } = string.Empty;
     public string PhoneNumber { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    //auth
+    public String Role { get; set; } = string.Empty;
+    public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
+    public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
 }

@@ -2,6 +2,7 @@
 using CoffeeEShop.Core.Models;
 using CoffeeEShop.Core.Models.DTOs;
 using CoffeeEShop.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,6 +34,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductCategory>> CreateCategoryAsync([FromBody] CreateCategoryDTO dto)
     {
         if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest("Category name is required.");
@@ -45,6 +47,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ProductCategory>> UpdateCategoryAsync(int id, [FromBody] CreateCategoryDTO dto)
     {
         var category = await _context.Categories.FindAsync(id);
@@ -58,6 +61,7 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeleteCategoryAsync(int id)
     {
         var category = await _context.Categories.FindAsync(id);

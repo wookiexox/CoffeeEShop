@@ -1,5 +1,6 @@
 ﻿using CoffeeEShop.Core.Models;
 using CoffeeEShop.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,12 +18,14 @@ public class ClientsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsAsync()
     {
         return Ok(await _context.Clients.ToListAsync());
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Client>> GetClientByIdAsync(int id)
     {
         var client = await _context.Clients.FindAsync(id);
