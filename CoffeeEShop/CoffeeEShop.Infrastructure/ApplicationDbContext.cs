@@ -1,10 +1,11 @@
-﻿using System;
+﻿using CoffeeEShop.Core;
+using CoffeeEShop.Core.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoffeeEShop.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeEShop.Infrastructure;
 
@@ -19,12 +20,18 @@ public class ApplicationDbContext : DbContext
     public DbSet<ProductCategory> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<BasketItem> BasketItems { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderItem> OrderItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        // Seed initial data
+        modelBuilder.Entity<Order>()
+        .HasMany(o => o.OrderItems)
+        .WithOne(oi => oi.Order)
+        .HasForeignKey(oi => oi.OrderId);
+
         var categories = new[]
         {
             new ProductCategory { Id = 1, Name = "Brazil", Description = "Chocolate and hazelnut notes" },

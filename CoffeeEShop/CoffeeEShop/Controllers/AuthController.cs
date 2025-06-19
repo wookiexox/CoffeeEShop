@@ -43,7 +43,7 @@ public class AuthController : ControllerBase
             PhoneNumber = request.PhoneNumber,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            Role = "User" // Default role
+            Role = "Admin" // Default role
         };
 
         _context.Clients.Add(client);

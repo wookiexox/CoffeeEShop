@@ -21,6 +21,7 @@
     <Compile Include="Controllers\BasketController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
   </ItemGroup>
 
