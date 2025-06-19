@@ -9,8 +9,12 @@ public class Client
     public string PhoneNumber { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    //auth
+    // auth
     public String Role { get; set; } = string.Empty;
     public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
     public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
+
+    // pswd reset
+    public String? PasswordResetToken { get; set; }
+    public DateTime? ResetTokenExpires { get; set; }
 }

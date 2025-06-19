@@ -105,4 +105,50 @@ public class AuthController : ControllerBase
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
         return computedHash.SequenceEqual(passwordHash);
     }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO request)
+    {
+        var client = await _context.Clients.FirstOrDefaultAsync(c => c.Email == request.Email);
+        if (client == null)
+        {
+            return Ok("If an account with this email exists, a password reset link has been sent.");
+        }
+
+        var resetToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+
+        client.PasswordResetToken = resetToken;
+        client.ResetTokenExpires = DateTime.Now.AddMinutes(15);
+
+        await _context.SaveChangesAsync();
+
+        // --- In a real application, you would email the token to the user here ---
+        // Example: await _emailService.SendPasswordResetEmailAsync(client.Email, resetToken);
+
+        // For testing, we return the token directly. DO NOT do this in production.
+        return Ok($"Password reset token (for testing): {resetToken}");
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDTO request)
+    {
+        var client = await _context.Clients.FirstOrDefaultAsync(c => c.PasswordResetToken == request.Token);
+
+        if (client == null || client.ResetTokenExpires < DateTime.Now)
+        {
+            return BadRequest("Invalid or expired token.");
+        }
+
+        CreatePasswordHash(request.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+        client.PasswordHash = passwordHash;
+        client.PasswordSalt = passwordSalt;
+
+        client.PasswordResetToken = null;
+        client.ResetTokenExpires = null;
+
+        await _context.SaveChangesAsync();
+
+        return Ok("Password has been reset successfully.");
+    }
 }
